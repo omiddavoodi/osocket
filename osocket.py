@@ -26,11 +26,6 @@ class OSocket:
         lastMask = 1
         
         while (True):
-            rawbytes = self.socket.recv(512)
-            if (rawbytes == b''):
-                raise (OSocketException)
-            
-            ret += rawbytes
             
             while (not lengthFound and len(ret) > lastLengthByte):
                 curlbyte = ret[lastLengthByte]
@@ -46,6 +41,12 @@ class OSocket:
                 if (len(ret) - lastLengthByte == length):
                     self.buffer = ret[length:]
                     return ret[lastLengthByte:length+1]
+            
+            rawbytes = self.socket.recv(512)
+            if (rawbytes == b''):
+                raise (OSocketException)
+            
+            ret += rawbytes
 
     def sendmessage(self, message):
         if (type(message) != bytes):
