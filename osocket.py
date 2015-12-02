@@ -15,8 +15,8 @@ class OSocket:
     def connect(self, host, port):
         self.socket.connect((host, port))
 
-    def settimeout(self):
-        self.socket.settimeout()
+    def settimeout(self, timeout):
+        self.socket.settimeout(timeout)
 
     def readmessage(self):
         ret = self.buffer
@@ -47,8 +47,9 @@ class OSocket:
                 raise (OSocketException)
             
             ret += rawbytes
-
+    
     def sendmessage(self, message):
+        
         if (type(message) != bytes):
             raise (OSocketSendMustBeBytes)
 
@@ -65,6 +66,8 @@ class OSocket:
             l.append(t)
 
         self.socket.send(bytes(l) + message)
+
+        
 
     def bind(self, a):
         return self.socket.bind(a)
